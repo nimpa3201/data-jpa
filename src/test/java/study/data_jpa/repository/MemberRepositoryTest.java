@@ -20,6 +20,7 @@ class MemberRepositoryTest {
 
     @Test
     public void testMember(){
+        System.out.println("memberRepository = " + memberRepository.getClass()); //memberRepository = class jdk.proxy3.$Proxy132
         Member member = new Member("memberA");
         Member saveMember = memberRepository.save(member);
         Member findMember = memberRepository.findById(saveMember.getId()).get();

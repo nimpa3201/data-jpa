@@ -18,10 +18,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 @Rollback(false)
 class MemberRepositoryTest {
-    @Autowired MemberRepository memberRepository;
+    @Autowired
+    MemberRepository memberRepository;
 
     @Test
-    public void testMember(){
+    public void testMember() {
         System.out.println("memberRepository = " + memberRepository.getClass()); //memberRepository = class jdk.proxy3.$Proxy132
         Member member = new Member("memberA");
         Member saveMember = memberRepository.save(member);
@@ -32,8 +33,9 @@ class MemberRepositoryTest {
         assertThat(findMember).isEqualTo(member);
 
     }
+
     @Test
-    public void basicCRUD(){
+    public void basicCRUD() {
         Member member1 = new Member("member1");
         Member member2 = new Member("member2");
         memberRepository.save(member1);
@@ -58,6 +60,24 @@ class MemberRepositoryTest {
         long deletedCount = memberRepository.count();
         assertThat(deletedCount).isEqualTo(0);
 
+    }
+
+    @Test
+    public void findByUsernameAndAgeGreaterThen() {
+        Member m1 = new Member("AAA", 10);
+        Member m2 = new Member("AAA", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+        List<Member> result = memberRepository.findByUsernameAndAgeGreaterThan("AAA", 15);
+        assertThat(result.get(0).getUsername()).isEqualTo("AAA");
+        assertThat(result.get(0).getAge()).isEqualTo(20);
+
+
+    }
+
+    @Test
+    public void findHelloBy(){
+        List<Member> top3HelloBy = memberRepository.findTop3HelloBy();
     }
 
 }

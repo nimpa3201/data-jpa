@@ -1,5 +1,7 @@
 package study.data_jpa.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ class MemberRepositoryTest {
     MemberRepository memberRepository;
     @Autowired
     TeamRepository teamRepository;
+    @PersistenceContext
+    EntityManager em;
+
 
     @Test
     public void testMember() {
@@ -215,6 +220,30 @@ class MemberRepositoryTest {
         assertThat(page.isFirst()).isTrue();
         assertThat(page.hasNext()).isTrue();
 
+
+    }
+
+    @Test
+    public void bulkUpdate() {
+        memberRepository.save(new Member("member1",10));
+        memberRepository.save(new Member("member2",19));
+        memberRepository.save(new Member("member3",20));
+        memberRepository.save(new Member("member4",21));
+        memberRepository.save(new Member("member5",50));
+
+
+        // when
+        int resultCount = memberRepository.bulkAgePlus(20);
+//        em.flush();
+//        em.clear();
+
+        // 벌크 연산 이후 영속성 컨텍스트 날려야함
+
+        List<Member> member5 = memberRepository.findByUsername("member5");
+        System.out.println("member5 = " + member5);
+
+        // then
+        assertThat(resultCount).isEqualTo(3);
 
     }
 

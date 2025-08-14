@@ -14,7 +14,7 @@ import lombok.*;
 ) // 장점 애플리케이션 로딩 시점에 문법 오류 검사함
 
 @NamedEntityGraph(name = "Member.all",attributeNodes = @NamedAttributeNode("team"))
-public class Member {
+public class Member extends BaseEntity {
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
